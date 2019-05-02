@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Typeahead with ajax</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+
+    <form class="search-form">
+        <input type="text" class="search" placeholder="City or State">
+        <ul class="suggestions">
+            <li>Filter for a city</li>
+            <li>Fliter for a state</li>
+        </ul>
+    </form>
+
+    <script>
+        const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+        const cities = [];
+
+        fetch(endpoint)
+            .then(blob => blob.json())
+            .then(data => cities.push(...data));
+
+        function matchCity(wordToMatch, cities) {
+            return wordToMatch === '' ? [] : cities.filter(city => {
+                const regex = new RegExp(wordToMatch, 'gi');
+                return city.city.match(regex) || city.state.match(regex);
+            });
+        }
+
+        function displayMatches() {
+            const matches = matchCity(this.value, cities);
+            while (suggestions.firstChild) {
+                suggestions.removeChild(suggestions.firstChild);
+            }
+            matches.forEach(match => {
+                let li = document.createElement('li');
+                let node = document.createTextNode(`${match.city}, ${match.state}`);
+                li.appendChild(node);
+                suggestions.appendChild(li);
+            });
+        }
+
+        const searchInput = document.querySelector('.search');
+        const suggestions = document.querySelector('.suggestions');
+
+        searchInput.addEventListener('change', displayMatches);
+        searchInput.addEventListener('keyup', displayMatches);
+    </script>
+</body>
+
+</html>
