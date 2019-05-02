@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Array workout</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+
+    <script>
+        const people = [
+            { name: 'Wes', year: 1988 },
+            { name: 'Kait', year: 1986 },
+            { name: 'Irv', year: 1970 },
+            { name: 'Lux', year: 2015 }
+        ];
+
+        const comments = [
+            { text: 'Love this!', id: 523423 },
+            { text: 'Super good', id: 823423 },
+            { text: 'You are the best', id: 2039842 },
+            { text: 'Ramen is my fav food ever', id: 123523 },
+            { text: 'Nice Nice Nice!', id: 542328 }
+        ];
+
+        // Check if there is an adult
+        const isAdult = people.some(item => (new Date().getFullYear() - item.year) > 18);
+
+        // Check if everyone is adult
+        const isEveryAdult = people.every(item => (new Date().getFullYear() - item.year) > 18);
+
+        // find the comment with the ID of 823423
+        const withId = comments.find(item => item.id === 823423);
+
+        // Find the comment with this ID
+        // delete the comment with the ID of 823423
+
+        const indexToDelete = comments.findIndex(item => item.id === 123523);
+        const newComments = [...comments.slice(0,indexToDelete), ...comments.slice(indexToDelete+1)];
+    </script>
+</body>
+
+</html>
